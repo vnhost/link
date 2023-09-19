@@ -2,7 +2,29 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.get("/", (req, res) => res.type('html').send(html));
+//app.get("/", (req, res) => res.type('html').send(html));
+
+app.get("/", function(req, res){
+
+  console.log('Headers: ' + JSON.stringify(req.headers));
+  console.log('IP: ' + JSON.stringify(req.ip));
+
+
+  console.log("Browser: " + req.headers["user-agent"]);
+  console.log("Language: " + req.headers["accept-language"]);
+
+  var body = 'Headers: ' + JSON.stringify(req.headers); 
+  body += ' IP: ' + JSON.stringify(req.ip); 
+  body += " Browser: " + req.headers["user-agent"];
+  body += " Language: " + req.headers["accept-language"];
+
+  res.status(200);
+  res.header("Content-Type",'application/json');
+  res.end(JSON.stringify({status: "OK", data : body}));
+
+
+  //res.type('html').send(html);
+});
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
